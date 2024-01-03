@@ -38,6 +38,22 @@ spec:
       workspaces:
         - name: output
           workspace: shared-workspace
+    - name: maven
+      taskRef:
+        kind: ClusterTask
+        name: maven
+      runAfter:
+        - fetch-repository
+      params:
+        - name: GOALS
+          value:
+            - -Dmaven.repo.local=$(workspaces.maven-settings.path)
+            - verify
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+        - name: maven-settings
+          workspace: maven-settings
     - name: build-image
       params:
         - name: TLSVERIFY
@@ -45,7 +61,7 @@ spec:
         - name: IMAGE
           value: $(params.IMAGE)
       runAfter:
-        - fetch-repository
+        - maven
       taskRef:
         kind: ClusterTask
         name: buildah
@@ -76,4 +92,5 @@ spec:
         - name: source
           workspace: shared-workspace
   workspaces:
+    - name: maven-settings
     - name: shared-workspace
