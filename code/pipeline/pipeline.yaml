@@ -17,7 +17,7 @@ spec:
       name: git-revision
       type: string
     - default: >-
-        image-registry.openshift-image-registry.svc:5000/ibge/app
+        image-registry.openshift-image-registry.svc:5000/demo-pipelines/app
       description: image to be build from the code
       name: IMAGE
       type: string
